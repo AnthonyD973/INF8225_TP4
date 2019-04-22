@@ -1,3 +1,4 @@
+# TAKEN AND MODIFIED FROM : https://github.com/AakashKT/pytorch-recurrent-ae-siggraph17/blob/b534e990e659fc8fe76f9ff202e17a467a72b4a7/model.py
 import torch, os, sys, cv2
 import torch.nn as nn
 from torch.nn import init
