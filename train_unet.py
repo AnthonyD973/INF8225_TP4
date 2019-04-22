@@ -52,8 +52,8 @@ if torch.cuda.is_available():
 
 if args.checkpoint is not None and os.path.isfile(args.checkpoint):
     print("Loading from \"%s\"..." % (args.checkpoint))
-    net.load_state_dict(torch.load(args.checkpoint))
-    #net, optimiser, epoch = load_checkpoint(args.checkpoint, net, optimiser)
+    #net.load_state_dict(torch.load(args.checkpoint))
+    net, optimiser, epoch = load_checkpoint(args.checkpoint, net, optimiser)
     print("Loaded")
 
 def train(net, loader, optimizer, criterion, epoch):
@@ -112,7 +112,7 @@ def test(net, loader, criterion, epoch):
             (epoch + 1, i + 1, running_loss / count))
 
 
-for epoch in range(args.epochs):
+for epoch in range(epoch, args.epochs):
     train(net, loader_train, optimiser, criterion, epoch)
     test (net, loader_test, criterion, epoch)
 

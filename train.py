@@ -42,7 +42,7 @@ loader_train = torch.utils.data.DataLoader(dataset_train, batch_size=60)
 dataset_test = RandomResizeDataset(torchvision.datasets.MNIST(args.data_dir + "/test", train=False, download=True), ratio_mu=1.0, ratio_sigma=0.25)
 loader_test = torch.utils.data.DataLoader(dataset_test, batch_size=60)
 
-net = Net(3, 64, 5, 5).to(torch.double)
+net = Net(3, 5, 5).to(torch.double)
 optimiser = torch.optim.Adam(net.parameters(), lr=0.0001, betas=(0.9, 0.99))
 criterion = torch.nn.MSELoss()
 epoch = 0
@@ -50,7 +50,7 @@ epoch = 0
 if torch.cuda.is_available():
     net = torch.nn.DataParallel(net)
 
-if len(args.checkpoint) > 0 and os.path.isfile(args.checkpoint):
+if args.checkpoint is not None and os.path.isfile(args.checkpoint):
     print("Loading from \"%s\"..." % (args.checkpoint))
     #net.load_state_dict(torch.load(args.checkpoint))
     net, optimiser, epoch = load_checkpoint(args.checkpoint, net, optimiser)
@@ -112,7 +112,7 @@ def test(net, loader, criterion, epoch):
             (epoch + 1, i + 1, running_loss / count))
 
 
-for epoch in range(args.epochs):
+for epoch in range(epoch, args.epochs):
     train(net, loader_train, optimiser, criterion, epoch)
     test (net, loader_test, criterion, epoch)
 
